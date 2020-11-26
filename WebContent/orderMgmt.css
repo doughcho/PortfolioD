@@ -1,0 +1,258 @@
+@charset "ISO-8859-1";
+.container {	/* ".": define a class */
+	display: grid;
+	grid-template-columns: 570px 325px 605px;
+	grid-template-rows: 365px 135px 250px;
+	grid-gap: 0px;     /* changed from 10 to 0 */
+/*	border: 1px solid black; */
+}
+.box1 {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 3;
+/*	border: 1px solid black; */
+}
+.box2 {
+	grid-column-start: 2;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
+/*	border: 1px solid black; */
+}
+.box3 {
+	grid-column-start: 2;
+	grid-column-end: 3;
+	grid-row-start: 2;
+	grid-row-end: 4;
+/*	border: 1px solid black; */
+}
+.box4 {
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 2;
+	grid-row-end: 4;
+/*	border: 1px solid black; */
+}
+.box5 {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 3;
+	grid-row-end: 4;
+/*	border: 1px solid black; */
+}
+
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*the following html and body rule sets are required only if using a % width or height*/
+/*html {
+width: 100%;
+height: 100%;
+}*/
+body {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0 20px 0 20px;
+  background: white;
+}
+.scrollingtable {
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  overflow: hidden;
+  width: 895px/*auto*/;   /* if you do not want to fix width, set to auto */
+  min-width: 0/*100%*/;   /*if you want a % width, set it here, else set to 0*/
+  height: 262px/*100%*/;  /*set table height here; can be fixed value or %*/
+  min-height: 0/*104px*/; /*if using % height, make this large enough to fit scrollbar arrows + caption + thead*/
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 14px; /* 13px; */
+  line-height: 20px;
+/*  padding: 20px 0 20px 0; /*need enough padding to make room for caption*/
+  text-align: left;
+}
+.scrollingtable * {box-sizing: border-box;}
+.scrollingtable > div {
+  position: relative;
+  border-top: 1px solid black;
+  height: 100%;
+  padding-top: 20px; /*this determines column header height*/
+}
+.scrollingtable > div:before {
+  top: 0;
+  background: #A4A4A4 /* cornflowerblue; /*header row background color*/
+}
+.scrollingtable > div:before,
+.scrollingtable > div > div:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+.scrollingtable > div > div {
+  min-height: 0/*43px*/; /*if using % height, make this large enough to fit scrollbar arrows*/
+  max-height: 100%;
+  overflow: scroll/*auto*/; /*set to auto if using fixed or % width; else scroll*/
+  overflow-x: hidden;
+  border: 1px solid black; /*border around table body*/  /* (comment added) to show scrollbar border */
+}
+.scrollingtable > div > div:after {background: white;} /*match page background color*/
+.scrollingtable > div > div > table {
+  width: 100%;
+  border-spacing: 0;
+  margin-top: -20px; /*inverse of column header height*/
+  /*margin-right: 17px;*/ /*uncomment if using % width*/
+}
+.scrollingtable > div > div > table > caption {
+  position: absolute;
+  top: -20px; /*inverse of caption height*/
+  margin-top: -1px; /*inverse of border-width*/
+  width: 100%;
+/*  font-weight: bold;  deleted */
+  font-size: 15px;     /* added */
+  text-align: center;
+}
+.scrollingtable > div > div > table > * > tr > * {padding: 0;}
+.scrollingtable > div > div > table > thead {
+  vertical-align: bottom;
+  white-space: nowrap;
+  text-align: center;
+}
+.scrollingtable > div > div > table > thead > tr > * > div {
+  display: inline-block;
+  padding: 0 6px 0 6px; /*header cell padding*/
+}
+.scrollingtable > div > div > table > thead > tr > :first-child:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px; /*match column header height*/
+  border-left: 1px solid black; /*leftmost header border*/
+}
+.scrollingtable > div > div > table > thead > tr > * > div[label]:before,
+.scrollingtable > div > div > table > thead > tr > * > div > div:first-child,
+.scrollingtable > div > div > table > thead > tr > * + :before {
+  position: absolute;
+  top: 0;
+  white-space: pre-wrap;
+  font-weight: normal;    /* added */
+  vertical-align: middle; /* added */
+  color: white; /*header row font color*/
+}
+.scrollingtable > div > div > table > thead > tr > * > div[label]:before,
+.scrollingtable > div > div > table > thead > tr > * > div[label]:after {content: attr(label);}
+.scrollingtable > div > div > table > thead > tr > * + :before {
+  content: "";
+  display: block;
+  min-height: 20px; /*match column header height*/
+  padding-top: 1px;
+  border-left: 1px solid black; /*borders between header cells*/
+}
+.scrollingtable .scrollbarhead {float: right;}
+.scrollingtable .scrollbarhead:before {
+  position: absolute;
+  width: 100px;
+  top: -1px; /*inverse border-width*/ /* added comment */
+  background: white; /*match page background color*/
+}
+.scrollingtable > div > div > table > tbody > tr:after {
+  content: "";
+  display: table-cell;
+  position: relative;
+  padding: 0;
+  border-top: 1px solid black;
+  top: -1px; /*inverse of border width*/
+}
+.scrollingtable > div > div > table > tbody {vertical-align: top;}
+.scrollingtable > div > div > table > tbody > tr {background: white;}
+.scrollingtable > div > div > table > tbody > tr > * {
+  border-bottom: 1px solid black;
+  padding: 0 6px 0 6px;
+  height: 20px; /*match column header height*/
+}
+.scrollingtable > div > div > table > tbody:last-of-type > tr:last-child > * {border-bottom: none;}
+.scrollingtable > div > div > table > tbody > tr:nth-child(even) {background: gainsboro;} /*alternate row color*/
+.scrollingtable > div > div > table > tbody > tr > * + * {border-left: 1px solid black;} /*borders between body cells*/
+
+form {
+	margin: 0 auto;
+	width: 1500px;
+	height: 750px;
+	padding: 1em;
+	border: 1px solid #CCC;
+	border-radius: 1em;
+}
+
+form div + div {    /* margin between form widget */
+	margin-top: 0em;   /* when there's a margin, makes issue with grid */
+}
+
+fleidset {
+	display: block;
+	margin: 20px 1%;
+	padding: 0 auto;
+	padding: 16px 0;
+	border-top: 1px solid #ddd;
+	width: 98%;
+}
+
+legend {
+	display: table;
+	min-width: 0px;
+	max-width: 70%;
+	position: relative;
+	margin: auto;
+	padding: 5px 20px;
+	font-size: 20px;
+	text-align: center;
+}
+
+label {
+	display: inline-block;
+	width: 90px;
+	text-align: right;
+	line-height: 2em;
+}
+
+P {
+	white-space: pre;
+	line-height: 1em;
+}
+
+input {   /* was and textarea */
+	font: 1em sans-serif;
+	width: 200px;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #999;
+}
+
+input:focus, textarea:focus {
+	border-color: #000;
+}
+
+input:invalid {      /* sequence is important; next to other input: */
+	border: 3px solid red;
+}
+
+textarea {
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #999;
+	vertical-align: top;
+	resize: vertical;
+}
+
+button {
+	width: 150px;
+	height: 25px;
+	border-radius: 10px 10px 10px 10px / 10px 10px 10px 10px;
+	margin-left: .5em;    /* extra margin for text fields seemingly the same */
+}

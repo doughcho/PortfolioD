@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="orderMgmt.css" />
+<meta charset="ISO-8859-1" content="no-cache" />
+<title>Customer Order Management</title>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./cookieLib.js"></script>
+<script src="./orderMgmt.js"></script>
+</head>
+<body>
+    <form action="#" name="OrdMgmtForm" id="OrdMgmtForm" method="post">
+	<div class="container">
+ 		<div class="box1">
+	  	  <fieldset style="width:500px">
+	    	<legend>Customer Order Handling</legend>
+			<label for="orderID">Order #: </label>
+			<input type="number" name="orderID" id="orderID" pattern="[0-9]+"/>
+			<button type="button" id="newBtn">Enter a New Order</button><br/>		
+			<label for="custID">Customer #: </label>
+			<input type="number" name="custID" id="custID" pattern="[0-9]+"/>	
+			<button type="button" id="rctBtn">Recent Orders</button>
+			<label for="custName" style="font-style:italic">Cust. Name: </label>
+			<input type="text" name="custName" id="custName" style="width:400px" disabled/><br/>
+			<label for="emplID">Sales Rep.: </label>
+			<input type="number" name="emplID" id="emplID" pattern="[0-9]+"/><br/>
+			<label for="emplName" style="font-style:italic">Rep. Name: </label>
+			<input type="text" name="emplName" id="emplName" style="width:400px" disabled/><br/>
+			<label for="orderDT">Order Date: </label>
+			<input type="date" name="orderDT" id="orderDT"/><br/>
+			<label for="status">Status: </label>
+			<select name="status" id="status" disabled>
+				<option value="1">1: Created</option>
+				<option value="2">2: In process</option>
+				<option value="3">3: Shipped</option>
+				<option value="4">4: Delivered</option>
+				<option disabled></option>
+				<option value="7">7: Pending</option>
+				<option value="8">8: Have issue</option>
+				<option value="9">9: Canceled</option>			
+			</select><br/>
+			<label for="shipMthd">Ship Method: </label>
+			<select name="shipMthd" id="shipMthd">
+				<option value="1">1: Ground</option>
+				<option value="2">2: 2nd Day Air</option>
+				<option value="3">3: Next Day Air</option>
+				<option value="4">4: Local Delivery</option>
+				<option value="5">5: Customer Pickup</option>			
+			</select><br/>
+			<label for="shipPayr">Ship Pay: </label>
+			<select name="shipPayr" id="shipPayr">
+				<option value="1">1: Customer Pays</option>
+				<option value="2">2: Free</option>
+				<option value="3">3: Half &amp; Half</option>
+			</select><br/>
+			<label for="shipAddr">Ship Addr.: </label>
+			<input type="text" name="shipAddr" id="shipAddr" style="width:400px"/><br/>
+			<label for="comment">Comment: </label>
+			<textarea name="comment" id="comment" cols="54" rows="3"></textarea><br/><br/>			
+  			<center>
+				<button type="button" id="addBtn">Register Order</button>
+				<button type="button" id="chgBtn">Change Order</button>
+				<button type="button" id="canBtn">Cancel Order</button>
+			</center><br/>
+	  	  </fieldset>
+		</div>
+		<div class="box2">
+	  	  <fieldset style="width:895px">
+	    	<legend>Order Details</legend>
+	    	<div class="scrollingtable"><div><div>
+			<table>
+	    	  <thead>
+	    	  	<tr>
+	    	  		<th style="width:2%"><div label="Seq."></div></th>
+	    	  		<th style="width:12%"><div label="Item #"></div></th>
+	    	  		<th style="width:25%"><div label="Item Description"></div></th>
+	    	  		<th style="width:8%"><div label="Qty"></div></th>
+	    	  		<th style="width:10%"><div label="Unit Price"></div></th>
+	    	  		<th style="width:12%"><div label="Amount"></div></th>
+	    	  		<th style="width:30%"><div label="Special Comment"></div></th>
+					<th class="scrollbarhead"/>
+	    	  	</tr>
+	    	  </thead>
+	    	  <tbody>
+	    	  	<tr> <td align="center" id = "s0">s0</td> <td id = "item0">item0</td> <td id = "iDesc0">iDesc0</td> <td align="right" id = "qty0">qty0</td> <td align="right" id = "uPric0">uPric0</td> <td align="right" id = "amount0">amount0</td> <td id = "comment0">comment0</td></tr>
+	    	  	<tr> <td align="center" id = "s1">s1</td> <td id = "item1">item1</td> <td id = "iDesc1">iDesc1</td> <td align="right" id = "qty1">qty1</td> <td align="right" id = "uPric1">uPric1</td> <td align="right" id = "amount1">amount1</td> <td id = "comment1">comment1</td></tr>
+	    	  	<tr> <td align="center" id = "s2">s2</td> <td id = "item2">item2</td> <td id = "iDesc2">iDesc2</td> <td align="right" id = "qty2">qty2</td> <td align="right" id = "uPric2">uPric2</td> <td align="right" id = "amount2">amount2</td> <td id = "comment2">comment2</td></tr>
+	    	  	<tr> <td align="center" id = "s3">s3</td> <td id = "item3">item3</td> <td id = "iDesc3">iDesc3</td> <td align="right" id = "qty3">qty3</td> <td align="right" id = "uPric3">uPric3</td> <td align="right" id = "amount3">amount3</td> <td id = "comment3">comment3</td></tr>
+	    	  	<tr> <td align="center" id = "s4">s4</td> <td id = "item4">item4</td> <td id = "iDesc4">iDesc4</td> <td align="right" id = "qty4">qty4</td> <td align="right" id = "uPric4">uPric4</td> <td align="right" id = "amount4">amount4</td> <td id = "comment4">comment4</td></tr>
+	    	  	<tr> <td align="center" id = "s5">s5</td> <td id = "item5">item5</td> <td id = "iDesc5">iDesc5</td> <td align="right" id = "qty5">qty5</td> <td align="right" id = "uPric5">uPric5</td> <td align="right" id = "amount5">amount5</td> <td id = "comment5">comment5</td></tr>
+	    	  	<tr> <td align="center" id = "s6">s6</td> <td id = "item6">item6</td> <td id = "iDesc6">iDesc6</td> <td align="right" id = "qty6">qty6</td> <td align="right" id = "uPric6">uPric6</td> <td align="right" id = "amount6">amount6</td> <td id = "comment6">comment6</td></tr>
+	    	  	<tr> <td align="center" id = "s7">s7</td> <td id = "item7">item7</td> <td id = "iDesc7">iDesc7</td> <td align="right" id = "qty7">qty7</td> <td align="right" id = "uPric7">uPric7</td> <td align="right" id = "amount7">amount7</td> <td id = "comment7">comment7</td></tr>
+	    	  	<tr> <td align="center" id = "s8">s8</td> <td id = "item8">item8</td> <td id = "iDesc8">iDesc8</td> <td align="right" id = "qty8">qty8</td> <td align="right" id = "uPric8">uPric8</td> <td align="right" id = "amount8">amount8</td> <td id = "comment8">comment8</td></tr>
+	    	  	<tr> <td align="center" id = "s9">s9</td> <td id = "item9">item9</td> <td id = "iDesc9">iDesc9</td> <td align="right" id = "qty9">qty9</td> <td align="right" id = "uPric9">uPric9</td> <td align="right" id = "amount9">amount9</td> <td id = "comment9">comment9</td></tr>
+	    	  	<tr> <td align="center" id = "s10">sA</td><td id = "item10">itemA</td><td id = "iDesc10">iDescA</td><td align="right" id = "qty10">qtyA</td><td align="right" id = "uPric10">uPricA</td><td align="right" id = "amount10">amountA</td><td id = "comment10">commentA</td></tr>
+	    	  	<tr> <td align="center" id = "s11">sB</td><td id = "item11">itemB</td><td id = "iDesc11">iDescB</td><td align="right" id = "qty11">qtyB</td><td align="right" id = "uPric11">uPricB</td><td align="right" id = "amount11">amountB</td><td id = "comment11">commentB</td></tr>
+	    	  	<tr> <td align="center" id = "s12">sC</td><td id = "item12">itemC</td><td id = "iDesc12">iDescC</td><td align="right" id = "qty12">qtyC</td><td align="right" id = "uPric12">uPricC</td><td align="right" id = "amount12">amountC</td><td id = "comment12">commentC</td></tr>
+	    	  	<tr> <td align="center" id = "s13">sE</td><td id = "item13">itemE</td><td id = "iDesc13">iDescE</td><td align="right" id = "qty13">qtyE</td><td align="right" id = "uPric13">uPricE</td><td align="right" id = "amount13">amountE</td><td id = "comment13">commentE</td></tr>
+	    	  	<tr> <td align="center" id = "s14">sF</td><td id = "item14">itemF</td><td id = "iDesc14">iDescF</td><td align="right" id = "qty14">qtyF</td><td align="right" id = "uPric14">uPricF</td><td align="right" id = "amount14">amountF</td><td id = "comment14">commentF</td></tr>
+	    	  	<tr> <td align="center" id = "s15">sG</td><td id = "item15">itemG</td><td id = "iDesc15">iDescG</td><td align="right" id = "qty15">qtyG</td><td align="right" id = "uPric15">uPricG</td><td align="right" id = "amount15">amountG</td><td id = "comment15">commentG</td></tr>
+	    	  	<tr> <td align="center" id = "s16">sH</td><td id = "item16">itemH</td><td id = "iDesc16">iDescH</td><td align="right" id = "qty16">qtyH</td><td align="right" id = "uPric16">uPricH</td><td align="right" id = "amount16">amountH</td><td id = "comment16">commentH</td></tr>
+	    	  	<tr> <td align="center" id = "s17">sI</td><td id = "item17">itemI</td><td id = "iDesc17">iDescI</td><td align="right" id = "qty17">qtyI</td><td align="right" id = "uPric17">uPricI</td><td align="right" id = "amount17">amountI</td><td id = "comment17">commentI</td></tr>
+	    	  	<tr> <td align="center" id = "s18">sJ</td><td id = "item18">itemJ</td><td id = "iDesc18">iDescJ</td><td align="right" id = "qty18">qtyJ</td><td align="right" id = "uPric18">uPricJ</td><td align="right" id = "amount18">amountJ</td><td id = "comment18">commentJ</td></tr>
+	    	  	<tr> <td align="center" id = "s19">sK</td><td id = "item19">itemK</td><td id = "iDesc19">iDescK</td><td align="right" id = "qty19">qtyK</td><td align="right" id = "uPric19">uPricK</td><td align="right" id = "amount19">amountK</td><td id = "comment19">commentK</td></tr>
+	    	  </tbody>
+	    	</table>
+	    	</div></div></div>
+			<br/><br/>
+		  </fieldset>
+		</div>
+		<div class="box3">
+	  	  <fieldset style="width:260px; height: 350px">
+	    	<legend>Summary</legend>
+			<label for="itemCnt" style="font-style:italic">Item Count: </label>
+			<input type="number" name="itemCnt" id="itemCnt" style="width:50px; text-align:right" disabled/><br/><br/>
+			<label for="subTotal" style="font-style:italic">SubTotal: </label>
+			<input type="text" name="subTotal" id="subTotal" style="width:150px; text-align:right" disabled/>
+			<label for="taxAmt" style="font-style:italic">Sales Tax: </label>
+			<input type="text" name="taxAmt" id="taxAmt" style="width:150px; text-align:right" disabled/><br/>
+			<label for="shipChrg" style="font-style:italic">S&amp;H: </label>
+			<input type="text" name="shipChrg" id="shipChrg" style="width:150px; text-align:right" disabled/><br/>
+			<label for="dcAmt" style="color:red; font-weight:bold">Discount: </label>
+			<input type="number" name="dcAmt" id="dcAmt" pattern="[0-9]+([\.,\[0-9]+)?" step="0.01" style="width:150px; text-align:right"/><br/>
+			<label for="total" style="font-style:italic">TOTAL Amt.: </label>
+			<input type="text" name="total" id="total" style="width:150px; text-align:right" disabled/><br/><br/>
+			<label for="paidAmt" style="font-style:italic">Paid Amount: </label>
+			<input type="text" name="paidAmt" id="paidAmt" style="width:150px; text-align:right" disabled/><br/>
+			<label for="remained" style="font-style:italic">Remained: </label>
+			<input type="text" name="remained" id="remained" style="width:150px; text-align:right" disabled/><br/>
+			<br/>
+		  </fieldset>
+		</div>			  		
+ 		<div class="box4">
+	  	  <fieldset style="width:570px; height: 350px">
+	    	<legend>Order Items Handling</legend>
+			<label for="seq">Seq.: </label>
+			<input type="number" name="seq" id="seq" pattern="[0-9]+" style="width:50px"/>
+			<button type="button" id="inewBtn">Enter a New Item</button><br/>		
+			<label for="itemID">Item #: </label>
+			<input type="number" name="itemID" id="itemID" pattern="[0-9]+"/><br/>	
+			<label for="itemtName" style="font-style:italic">Description: </label>
+			<input type="text" name="itemName" id="itemName" style="width:400px" disabled/><br/>
+			<label for="qty">Quantity: </label>
+			<input type="number" name="qty" id="qty" pattern="[0-9]+" style="width:100px; text-align:right"/><br/>
+			<label for="uPrice">Unit Price: </label>
+			<input type="number" name="uPrice" id="uPrice" pattern="[0-9]+([\.,\[0-9]+)?" step="0.01" style="width:150px; text-align:right"/><br/>
+			<label for="amount" style="font-style:italic">Amount: </label>
+			<input type="text" name="amount" id="amount" style="width:150px; text-align:right" disabled/><br/><br/>
+			<label for="icomment">Comment: </label>
+			<textarea name="icomment" id="icomment" cols="54" rows="3"></textarea><br/><br/>		
+  			<center>
+				<button type="button" id="iaddBtn" disabled>Add Item</button>
+				<button type="button" id="ichgBtn" disabled>Change Item</button>
+				<button type="button" id="idelBtn" disabled>Delete Item</button>
+			</center><br/>
+	  	  </fieldset>
+		</div>
+		<div class="box5">
+	  	  <fieldset style="width:500px; height: 215px">
+	    	<legend>Processing History</legend>
+			<label for="crName" style="font-style:italic">Created by: </label>
+			<input type="text" name="crName" id="crName" style="width:400px" disabled/><br/>
+			<label for="crDT" style="font-style:italic">Cr. Date: </label>
+			<input type="date" name="crDT" id="crDT" disabled/><br/>
+			<label for="updName" style="font-style:italic">Changed by: </label>
+			<input type="text" name="updName" id="updName" style="width:400px" disabled/><br/>
+			<label for="updDT" style="font-style:italic">Chg. Date: </label>
+			<input type="date" name="updDT" id="updDT" disabled/><br/>
+			<p></p>			
+			<label for="trackNum" style="font-style:italic; font-weight:bold">Tracking #: </label>
+			<input type="text" name="trackNum" id="trackNum" disabled/>
+			<button type="button" id="trkBtn">Track Package</button>			
+		  </fieldset>
+		</div>			  		
+	</div>
+	</form>	
+</body>
+</html>
