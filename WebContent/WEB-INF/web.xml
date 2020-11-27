@@ -10,6 +10,23 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 
+  <context-param>
+    <param-name>jdbcDriver</param-name> 	
+    <param-value>com.mysql.cj.jdbc.Driver</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbUrl</param-name> 	
+    <param-value>jdbc:mysql://localhost:3306/testdb</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbUser</param-name> 	
+    <param-value>testUser</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbPswd</param-name>
+    <param-value>4dbAccess@app</param-value>
+  </context-param>
+  	
   <!-- The front controller of this Spring Web application, responsible for handling all application requests -->
   <servlet>
   	<servlet-name>SpringServlet02</servlet-name>

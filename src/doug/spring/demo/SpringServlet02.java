@@ -1,7 +1,5 @@
 package doug.spring.demo;
 
-//import java.io.FileNotFoundException;
-//import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;    					// added for writing response data
 
@@ -27,13 +25,17 @@ import java.sql.*;                				// added for JDBC
 import java.text.DateFormat;					// added for Date
 import java.text.SimpleDateFormat;
 import java.util.Date;
-//import java.util.Properties;
 import java.util.Calendar;
 import java.text.ParseException;
 
 @WebServlet(description = "Servlet for Spring Maven project", urlPatterns = { "/SpringServlet02" })
 public class SpringServlet02 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+    static String dbUrl;
+    static String dbUser;
+    static String dbPswd;
+    static String today;
+    static final float TAX_RATE = 0.0785f;	// temporary for the sales tax calculation
 	class Authenti {
 		String userID;
 		String passwd;
@@ -135,24 +137,10 @@ public class SpringServlet02 extends HttpServlet {
     OneOrder  oneOrder  = null;
     CustOrder custOrder = null;
     Summary	  summary   = null;
-//    String	  requestData  = null;	// request data (JSON string)
+    String	  requestData  = null;	// request data (JSON string)
     String	  responseData = null;	// response data (JSON string)
-//    String    whatEvent    = null;
-//    String    userName     = null;
-    static String today = null;
-    final static float TAX_RATE = 0.0785f;
-    // Needed to be changed (using database.properties or @Value annotation)
-    final static String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-    final static String dbUrl      = "jdbc:mysql://localhost:3306/testdb";
-    final static String dbUser     = "root";
-    final static String dbPswd     = "DougsMySQL";
-    static {
-		try {
-	    	Class.forName(jdbcDriver);    // load JDBC Driver
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+    String    whatEvent    = null;
+    String    userName     = null;
 
     public SpringServlet02() {
         super();
@@ -163,8 +151,16 @@ public class SpringServlet02 extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
+	    super.init(config);
     	System.out.println("init() of SpringServlet02");
-
+		try {
+	    	Class.forName(getServletContext().getInitParameter("jdbcDriver"));    // load JDBC Driver
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	    dbUrl  = getServletContext().getInitParameter("dbUrl");
+	    dbUser = getServletContext().getInitParameter("dbUser");
+	    dbPswd = getServletContext().getInitParameter("dbPswd");
     }
 
     @Override
@@ -178,7 +174,7 @@ public class SpringServlet02 extends HttpServlet {
     }
 
 //  Handles MySQL database through JDBC
-	protected int authenticationCheck(String userID, String password, String userName) throws SQLException {
+	protected int authenticationCheck(String userID, String password) throws SQLException {
 	    int status = 0;    // 0: user does not exist, 1: password not match, 2: inactive user, 3: active user	       
 	    Connection conn = null;
 	    try { 
@@ -391,7 +387,7 @@ public class SpringServlet02 extends HttpServlet {
 	    return isGood;
 	}
 
-	protected boolean insertOrder(Order o, String userName) throws SQLException, ParseException {    
+	protected boolean insertOrder(Order o) throws SQLException, ParseException {    
 		boolean isGood = false;
 	    Connection conn = null;
 		try { 
@@ -423,7 +419,7 @@ public class SpringServlet02 extends HttpServlet {
 	    return isGood;
 	}
 
-	protected boolean updateOrder(Order o, String whatEvent, String userName) throws SQLException, ParseException {    
+	protected boolean updateOrder(Order o) throws SQLException, ParseException {    
 		boolean isGood = false;
 	    Connection conn = null;
 		try { 
@@ -546,7 +542,7 @@ public class SpringServlet02 extends HttpServlet {
 	    return isGood;
 	}
 
-	protected boolean updateOrderItem(OrderItem oi, String whatEvent) throws SQLException, ParseException {    
+	protected boolean updateOrderItem(OrderItem oi) throws SQLException, ParseException {    
 		boolean isGood = false;
 	    Connection conn = null;
 		try { 
@@ -593,11 +589,9 @@ public class SpringServlet02 extends HttpServlet {
 		String wellDone = "N";		// for cookie "wellDone"
 		int orderID = 0;
 		int custID  = 0;
-		String whatEvent = null;
-		String userName  = null;
 //		System.out.println("doPost() of SpringServlet02");		        
 		try {
-			String requestData = request.getParameter("json");
+			requestData = request.getParameter("json");
 			System.out.println("request data is " + requestData);
 			// prepare for the data parsing (common routine)
 			@SuppressWarnings("deprecation")
@@ -621,7 +615,7 @@ public class SpringServlet02 extends HttpServlet {
 					authenti = gson.fromJson(json, Authenti.class);
 					String userID = authenti.userID;
 					String passwd = authenti.passwd;
-					int status = authenticationCheck(userID, passwd, userName);					
+					int status = authenticationCheck(userID, passwd);					
 					String path = request.getContextPath();		
 					String strStatus = Integer.toString(status);
 					Cookie cookie = new Cookie("authStat", strStatus);
@@ -675,7 +669,7 @@ public class SpringServlet02 extends HttpServlet {
 					json = (JsonObject) element;
 					order = new Order();
 					order = gson.fromJson(json, Order.class);
-					if (insertOrder(order, userName)) {
+					if (insertOrder(order)) {
 						responseData = "{\"orderID\":"+order.orderID+",";
 						responseData+= "\"crName\":\""+order.crName+"\",";
 						responseData+= "\"crDT\":\""+order.crDT+"\"}";
@@ -688,7 +682,7 @@ public class SpringServlet02 extends HttpServlet {
 					json = (JsonObject) element;
 					order = new Order();
 					order = gson.fromJson(json, Order.class);
-					if (updateOrder(order, whatEvent, userName)) {
+					if (updateOrder(order)) {
 						responseData = "{\"taxAmt\":"+order.taxAmt+",";
 						responseData+= "\"updName\":\""+order.updName+"\",";
 						responseData+= "\"updDT\":\""+order.updDT+"\"}";
@@ -705,11 +699,11 @@ public class SpringServlet02 extends HttpServlet {
 					json = (JsonObject) element;
 					orderItem = new OrderItem();
 					orderItem = gson.fromJson(json, OrderItem.class);
-					boolean good = whatEvent.equals("15") ? insertOrderItem(orderItem) : updateOrderItem(orderItem, whatEvent);
+					boolean good = whatEvent.equals("15") ? insertOrderItem(orderItem) : updateOrderItem(orderItem);
 					if (good) {
 						order = new Order();
 						order.orderID = orderItem.orderID;
-						if (updateOrder(order, whatEvent, userName)) {
+						if (updateOrder(order)) {
 							summary.updName = order.updName;
 							summary.updDT   = order.updDT;
 							gson = new GsonBuilder().setDateFormat("yyyy-MM-dd' 'HH:mm:ss").create();			
