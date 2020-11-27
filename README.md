@@ -3,11 +3,12 @@ The master branch of Spring demo project
 WebApp demo project using Java EE and HTML-CSS-JavaScript. The project has the same functionality as Portfolio-A, but it is built on Spring environemnt (Spring Maven project) using xml definitions.
 
 Motivation
-- To implement the microservice architecture on Spring MVC framework and experience real working environment of Spring Tool Suite.
+- To hava a practical implementation experience about the microservice architecture on the Spring MVC framework and by performing both of the 2 different approaches for the web programming, get a deeper upderstanding about the mechanism of the Spring framework
 
 Build Status
-- Same as Portfolio-A version 1.1 (Customer Order Processing System)
-- Solved some multi-user related issues in the Portfolio-A
+- Functionally same as Portfolio-A version 1.1 (Customer Order Processing System)
+- Used configuration files (.xml) and annotations
+- Repositioned datbase related values from application to deployment descriptor
 
 Code Style
 - Microservices architecture (using Spring MVC framework)
